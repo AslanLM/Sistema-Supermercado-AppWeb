@@ -1,7 +1,3 @@
-window.addEventListener("load", function(){
-    document.getElementById("loader").classList.toggle("loading2")
-})
-
 window.addEventListener('DOMContentLoaded', event => {
 
     // Navbar shrink function
@@ -78,27 +74,4 @@ function slidefun(n) {
 	dot[counter - 1].className += " active";
 }
 
-const $btnSignIn= document.querySelector('.sign-in-btn'),
-      $btnSignUp = document.querySelector('.sign-up-btn'),  
-      $signUp = document.querySelector('.sign-up'),
-      $signIn  = document.querySelector('.sign-in');
 
-document.addEventListener('click', e => {
-    if (e.target === $btnSignIn || e.target === $btnSignUp) {
-        $signIn.classList.toggle('active');
-        $signUp.classList.toggle('active')
-    }
-});
-
-const body = document.querySelector("body");
-const toggle = document.querySelector("#toggle");
-const sunIcon = document.querySelector(".toggle .bxs-sun");
-const moonIcon = document.querySelector(".toggle .bx-moon");
-
-toggle.addEventListener("change", () => {
-    
-    body.classList.toggle("dark");
-    sunIcon.className = sunIcon.className == "bx bxs-sun" ? "bx bx-sun" : "bx bxs-sun";
-    moonIcon.className = moonIcon.className == "bx bxs-moon" ? "bx bx-moon" : "bx bxs-moon";
-
-});
