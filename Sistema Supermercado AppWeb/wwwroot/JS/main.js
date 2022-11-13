@@ -74,4 +74,46 @@ function slidefun(n) {
 	dot[counter - 1].className += " active";
 }
 
+document.getElementById("opennav").addEventListener("click", function () {
+    document.getElementById("mySidenav").style.width = "270px";
+    document.getElementById("mainside").style.marginRight = "270px";
+    document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+})
+
+document.getElementById("closebtn").addEventListener("click", function () {
+    document.getElementById("mySidenav").style.width = "0";
+    document.getElementById("mainside").style.marginRight = "0";
+    document.body.style.backgroundColor = "";
+})
+
+
+
+// btnopens seccion
+
+document.getElementById("btnopen").addEventListener("click", function () {
+    document.getElementById("myseccion2").style.width = "100%";
+    document.getElementById("myseccion").style.marginLeft = "100%";
+    document.getElementById("myseccion2").style.display = "block";
+    document.getElementById("myseccion").style.display = "none";
+    document.getElementById("myseccion3").style.display = "none";
+    document.getElementById("myseccion4").style.display = "none";
+})
+
+document.getElementById("btnopen2").addEventListener("click", function () {
+    document.getElementById("myseccion3").style.width = "100%";
+    document.getElementById("myseccion").style.marginLeft = "100%";
+    document.getElementById("myseccion3").style.display = "block";
+    document.getElementById("myseccion").style.display = "none";
+    document.getElementById("myseccion2").style.display = "none";
+    document.getElementById("myseccion4").style.display = "none";
+})
+
+document.getElementById("btnopen3").addEventListener("click", function () {
+    document.getElementById("myseccion4").style.width = "100%";
+    document.getElementById("myseccion").style.marginLeft = "100%";
+    document.getElementById("myseccion4").style.display = "block";
+    document.getElementById("myseccion").style.display = "none";
+    document.getElementById("myseccion2").style.display = "none";
+    document.getElementById("myseccion3").style.display = "none";
+})
 
