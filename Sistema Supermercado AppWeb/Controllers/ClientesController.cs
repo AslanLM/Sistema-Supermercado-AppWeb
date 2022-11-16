@@ -29,7 +29,7 @@ namespace Sistema_Supermercado_AppWeb.Controllers
                      var lstClientes = new List<Clientes>();
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync("https://localhost:44332/api/clientes"))
+                using (var response = await httpClient.GetAsync("https://localhost:44332/api/Clientes"))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     lstClientes = JsonConvert.DeserializeObject<List<Clientes>>(apiResponse);
@@ -54,14 +54,16 @@ namespace Sistema_Supermercado_AppWeb.Controllers
         // POST: ClientesController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+
         public async Task<ActionResult> Create(Clientes clientes)
         {
             var httpClient = new HttpClient();
-            StringContent content = new StringContent(JsonConvert.SerializeObject(clientes), Encoding.UTF8, "appplication/json");
-            using (var response = await httpClient.PostAsync("https://localhost:44332/api/clientes/", content))
+            StringContent content = new StringContent(JsonConvert.SerializeObject(clientes), Encoding.UTF8, "application/json");
+            using (var response = await httpClient.PostAsync("https://localhost:44332/api/Clientes/", content))
             {
                 string apiResponse = await response.Content.ReadAsStringAsync();
                 clientes = JsonConvert.DeserializeObject<Clientes>(apiResponse);
+
             }
             if (clientes != null)
             {
