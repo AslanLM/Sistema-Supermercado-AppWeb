@@ -3,6 +3,10 @@
 @{
     ViewData["Title"] = "Create";
 }
+
+@{
+    ViewData["Title"] = "Privacy Policy";
+}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,7 +36,8 @@
                     <button class="sign-up-btn">Iniciar Sesion</button>
                 </div>
             </div>
-            <form class="formulario">
+            <form asp-action="Create" class="formulario">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <h2 class="create-account">Crear una cuenta</h2>
                 <div class="iconos">
                     <div class="border-icon">
@@ -46,12 +51,17 @@
                     </div>
                 </div>
                 <p class="cuenta-gratis">Crear una cuenta gratis</p>
-                <input type="text" placeholder="Cedula" asp-for="Cedula">
-                <input type="text" placeholder="Nombre" asp-for="Nombre">
-                <input type="text" placeholder="Apellidos" asp-for="Apellidos">
-                <input type="number" placeholder="Telefono" asp-for="Telefono">
+                <input type="text" placeholder="Cedula" asp-for="Cedula" />
+                <span asp-validation-for="Cedula" class="text-danger"></span>
+                <input type="text" placeholder="Nombre" asp-for="Nombre" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+                <input type="text" placeholder="Apellidos" asp-for="Apellidos" />
+                <span asp-validation-for="Apellidos" class="text-danger"></span>
+                <input type="number" placeholder="Telefono" asp-for="Telefono" />
+                <span asp-validation-for="Telefono" class="text-danger"></span>
                 <input type="email" placeholder="Correo" asp-for="Correo" />
-                <input type="button" value="Create">
+                <span asp-validation-for="Correo" class="text-danger"></span>
+                <input type="submit" value="Create" class="btn btn-primary" />
             </form>
         </div>
         <div class="container-form sign-in">
@@ -82,12 +92,13 @@
             </div>
         </div>
     </section>
+    <script src="~/JS/script-login.js"></script>
 
-        <script src="~/JS/script-login.js"></script>
+
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }
+
 </body>
-
 </html>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}

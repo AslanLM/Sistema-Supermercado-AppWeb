@@ -22,9 +22,21 @@ namespace Sistema_Supermercado_AppWeb.Controllers
                 { return true; };
         }
         // GET: ClientesController
-        public ActionResult Index()
+
+        public async Task<ActionResult> Index()
         {
-            return View();
+
+                     var lstClientes = new List<Clientes>();
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync("https://localhost:44332/api/clientes"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    lstClientes = JsonConvert.DeserializeObject<List<Clientes>>(apiResponse);
+                };
+            }
+            return View(lstClientes);
+            
         }
 
         // GET: ClientesController/Details/5
@@ -46,7 +58,7 @@ namespace Sistema_Supermercado_AppWeb.Controllers
         {
             var httpClient = new HttpClient();
             StringContent content = new StringContent(JsonConvert.SerializeObject(clientes), Encoding.UTF8, "appplication/json");
-            using (var response = await httpClient.PostAsync("https://localhost:000/api/", content))
+            using (var response = await httpClient.PostAsync("https://localhost:44332/api/clientes/", content))
             {
                 string apiResponse = await response.Content.ReadAsStringAsync();
                 clientes = JsonConvert.DeserializeObject<Clientes>(apiResponse);
