@@ -1,0 +1,116 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>@ViewData["Title"] Supermercado Latino</title>
+    <!-- Template CSS -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="~/Tienda/CSS/styles.css">
+
+</head>
+<body id="mainside">
+    <header class="header-slider">
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+            <div class="container">
+                <div id="mySidenav" class="sidenav">
+                    <a href="javascript:void(0)" class="closebtn" id="closebtn">Categoria</a>
+                    <ul class="ulside">
+                        <li class="liside" id="btnopen"><a class="aside" href="javascript:void(0)">Abarrotes</a></li>
+                        <li class="liside" id="btnopen2"><a class="aside" href="javascript:void(0)">Congelados</a></li>
+                        <li class="liside" id="btnopen3"><a class="aside" href="javascript:void(0)">Carnes</a></li>
+                    </ul>
+                </div>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Tienda"><img src="~/Tienda/Img/logoSL.png" alt="..." /></a>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Tienda">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Clientes" asp-action="Create">Inicio de sesion</a>
+                        </li>
+                        <li class="nav-item" id="opennav">
+                            <a class="nav-link" href="#categoria">Categoria &#9776;</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+
+
+    @RenderBody()
+
+
+    <footer>
+        <div class="main-content">
+            <div class="left box">
+                <h2 class="h2footer">Acerca de</h2>
+                <div class="contentfooter">
+                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. At aut nemo tenetur molestiae dolore quidem reprehenderit veniam. Repellendus cumque reprehenderit quis iste mollitia quibusdam doloribus nobis optio necessitatibus amet? Modi?</p>
+                    <div class="social">
+                        <a href="javascript:void(0)"><span class="fab fa-facebook-f"></span></a>
+                        <a href="javascript:void(0)"><span class="fab fa-twitter"></span></a>
+                        <a href="javascript:void(0)"><span class="fab fa-instagram"></span></a>
+                    </div>
+                </div>
+            </div>
+            <div class="center box">
+                <h2 class="h2footer">Calle</h2>
+                <div class="contentfooter">
+                    <div class="place">
+                        <span class="fas fa-map-marker-alt"></span>
+                        <span class="text">Liberia, Guanacaste</span>
+                    </div>
+                    <div class="phone">
+                        <span class="fas fa-phone-alt"></span>
+                        <span class="text">+056-777 777</span>
+                    </div>
+                    <div class="email">
+                        <span class="fas fa-envelope"></span>
+                        <span class="text">email@email.com</span>
+                    </div>
+                </div>
+            </div>
+            <div class="right box">
+                <h2 class="h2footer">Contacto</h2>
+                <div class="contentfooter">
+                    <form action="#">
+                        <div class="email">
+                            <div class="text">Email *</div>
+                            <input type="email" required>
+                        </div>
+                        <div class="msg">
+                            <div class="text">Mensaje *</div>
+                            <textarea rows="2" cols="25" required></textarea>
+                        </div>
+                        <div class="btnfooter">
+                            <button class="buttonfooter" type="submit">Enviar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="bottom">
+            <center>
+                <span class="credit">Creado por <a href="https://github.com/AslanLM">Anti-Protones</a> | </span>
+                <span class="far fa-copyright"></span><span> 2022 Todos los derechos reservados.</span>
+            </center>
+        </div>
+    </footer>
+
+
+
+ 
+    <script src="~/Tienda/JS/main.js" asp-append-version="true"></script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

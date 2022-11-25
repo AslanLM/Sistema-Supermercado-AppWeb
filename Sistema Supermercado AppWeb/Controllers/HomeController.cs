@@ -23,7 +23,7 @@ namespace Sistema_Supermercado_AppWeb.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult Tienda()
         {
             return View();
         }
