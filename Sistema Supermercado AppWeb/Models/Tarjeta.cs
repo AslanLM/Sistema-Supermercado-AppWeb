@@ -9,13 +9,12 @@ namespace Sistema_Supermercado_AppWeb.Models
 {
     public partial class Tarjeta
     {
-        public string Id { get; set; }
-        public string Idcliente { get; set; }
+        public int Id { get; set; }
+        public int Idcliente { get; set; }
+        public string TipoTarjeta { get; set; }
         public DateTime Fecha { get; set; }
-        public string Idtipo { get; set; }
         public DateTime Vencimiento { get; set; }
 
         public virtual Clientes IdclienteNavigation { get; set; }
-        public virtual TipoTarjeta IdtipoNavigation { get; set; }
     }
 }

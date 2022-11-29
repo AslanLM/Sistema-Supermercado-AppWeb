@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Sistema_Supermercado_AppWeb.Models.CategoriaProducto>
+﻿@model IEnumerable<Sistema_Supermercado_AppWeb.Models.Categorias>
 
 @{
     ViewData["Title"] = "Index";
@@ -29,9 +29,9 @@
                 @Html.DisplayFor(modelItem => item.NombreCategoria)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new {  id=item.Id }) |
+                
                 @Html.ActionLink("Details", "Details", new {  id=item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new {  id=item.Id })
+ 
             </td>
         </tr>
 }

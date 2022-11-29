@@ -1,43 +1,64 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Sistema_Supermercado_AppWeb.Models;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 
 namespace Sistema_Supermercado_AppWeb.Controllers
 {
-    public class SociosComercialesController : Controller
+    public class CategoriasController : Controller
     {
         private HttpClientHandler clientHandler = new HttpClientHandler();
 
-        public SociosComercialesController()
+        public CategoriasController()
         {
             clientHandler.ServerCertificateCustomValidationCallback =
                 (sender, cert, chain, sslPolicyErrors)
                 =>
                 { return true; };
         }
-        // GET: SocioComercialesController
-        public ActionResult Index()
+        // GET: CategoriasController
+        public async Task<ActionResult> Index()
         {
-            return View();
+            var lstCategoriass = new List<Categorias>();
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync("https://localhost:44332/api/Categorias"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    lstCategoriass = JsonConvert.DeserializeObject<List<Categorias>>(apiResponse);
+                };
+            }
+            return View(lstCategoriass);
         }
 
-        // GET: SocioComercialesController/Details/5
-        public ActionResult Details(int id)
+        // GET: CategoriasController/Details/5
+        public async Task<ActionResult<Categorias>> Details(int id)
         {
-            return View();
+            Categorias categorias = new Categorias();
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync("https://localhost:44332/api/Categorias/" + id))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    categorias = JsonConvert.DeserializeObject<Categorias>(apiResponse);
+                }
+            }
+
+            return View(categorias);
         }
 
-        // GET: SocioComercialesController/Create
+        // GET: CategoriasController/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: SocioComercialesController/Create
+        // POST: CategoriasController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(IFormCollection collection)
@@ -52,13 +73,13 @@ namespace Sistema_Supermercado_AppWeb.Controllers
             }
         }
 
-        // GET: SocioComercialesController/Edit/5
+        // GET: CategoriasController/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: SocioComercialesController/Edit/5
+        // POST: CategoriasController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
@@ -73,13 +94,13 @@ namespace Sistema_Supermercado_AppWeb.Controllers
             }
         }
 
-        // GET: SocioComercialesController/Delete/5
+        // GET: CategoriasController/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: SocioComercialesController/Delete/5
+        // POST: CategoriasController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)

@@ -1,7 +1,5 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
 
 // Code scaffolded by EF Core assumes nullable reference types (NRTs) are not used or disabled.
 // If you have enabled NRTs for your project, then un-comment the following line:
@@ -15,17 +13,21 @@ namespace Sistema_Supermercado_AppWeb.Models
         {
             CarritoCompras = new HashSet<CarritoCompras>();
             Tarjeta = new HashSet<Tarjeta>();
+            Venta = new HashSet<Venta>();
         }
 
-        public string Cedula { get; set; }
+        public int Id { get; set; }
         public string Nombre { get; set; }
         public string Apellidos { get; set; }
         public string Telefono { get; set; }
         public string Correo { get; set; }
+        public string Contrasena { get; set; }
+        public bool? EsAdministrador { get; set; }
+        public bool? Activo { get; set; }
+        public DateTime? FechaRegistro { get; set; }
 
-        [JsonIgnore]
         public virtual ICollection<CarritoCompras> CarritoCompras { get; set; }
-        [JsonIgnore]
         public virtual ICollection<Tarjeta> Tarjeta { get; set; }
+        public virtual ICollection<Venta> Venta { get; set; }
     }
 }

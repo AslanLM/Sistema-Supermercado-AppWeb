@@ -1,0 +1,55 @@
+﻿@model Sistema_Supermercado_AppWeb.Models.Clientes
+
+@{
+    ViewData["Title"] = "Login";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>@ViewData["Title"] Supermercado Latino</title>
+    <!-- Template CSS -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="~/Tienda/CSS/styles-login.css">
+
+</head>
+<body>
+
+    <form asp-action="Login">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="box">
+            <div class="form">
+                <h2>Inicio de sesion</h2>
+                <div class="inputbox">
+                    <input type="text" required="required">
+                    <span>Usuario</span>
+                    <i></i>
+                </div>
+                <div class="inputbox">
+                    <input type="password" required="required">
+                    <span>Contrasena</span>
+                    <i></i>
+                </div>
+                <div class="links">
+                    <a href="#">Olvidaste la contrasena?</a>
+                    <a asp-action="Create">Registrarse</a>
+                </div>
+                <input type="submit" value="Login">
+            </div>
+        </div>
+        </form>
+
+        @section Scripts {
+            @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+        }
+
+</body>
+</html>

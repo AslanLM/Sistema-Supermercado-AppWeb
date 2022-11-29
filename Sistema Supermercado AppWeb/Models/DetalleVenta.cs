@@ -9,12 +9,13 @@ namespace Sistema_Supermercado_AppWeb.Models
 {
     public partial class DetalleVenta
     {
-        public string Id { get; set; }
-        public string Idproducto { get; set; }
-        public decimal PrecioUnitario { get; set; }
-        public int Cantidad { get; set; }
+        public int Id { get; set; }
+        public int Idventa { get; set; }
+        public int Idproducto { get; set; }
+        public int? Cantidad { get; set; }
         public decimal? Total { get; set; }
 
         public virtual Productos IdproductoNavigation { get; set; }
+        public virtual Venta IdventaNavigation { get; set; }
     }
 }

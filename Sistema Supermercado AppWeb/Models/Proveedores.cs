@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 // Code scaffolded by EF Core assumes nullable reference types (NRTs) are not used or disabled.
@@ -15,7 +14,7 @@ namespace Sistema_Supermercado_AppWeb.Models
             Productos = new HashSet<Productos>();
         }
 
-        public string Id { get; set; }
+        public int Id { get; set; }
         public string NombreTipo { get; set; }
 
         public virtual ICollection<Productos> Productos { get; set; }

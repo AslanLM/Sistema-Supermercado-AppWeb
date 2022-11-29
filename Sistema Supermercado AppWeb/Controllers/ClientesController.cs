@@ -40,12 +40,12 @@ namespace Sistema_Supermercado_AppWeb.Controllers
         }
 
         // GET: ClientesController/Details/5
-        public async Task<ActionResult<Clientes>> Details(string cedula)
+        public async Task<ActionResult<Clientes>> Details(int id)
         {
                Clientes clientes = new Clientes();
                using(var httpClient = new HttpClient())
                {
-                using (var response = await httpClient.GetAsync("https://localhost:44332/api/Clientes" + cedula))
+                using (var response = await httpClient.GetAsync("https://localhost:44332/api/Clientes/" + id))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     clientes = JsonConvert.DeserializeObject<Clientes>(apiResponse);
@@ -55,7 +55,9 @@ namespace Sistema_Supermercado_AppWeb.Controllers
          return View(clientes);
         }
 
-        // GET: ClientesController/Create
+     
+
+        // GET: productosController/Create
         public ActionResult Create()
         {
             return View();
@@ -88,12 +90,12 @@ namespace Sistema_Supermercado_AppWeb.Controllers
 
 
         // GET: ClientesController/Edit/5
-        public async  Task<ActionResult<Clientes>> Edit(string cedula)
+        public async  Task<ActionResult<Clientes>> Edit(int id)
         {
             Clientes clientes = new Clientes();
             using (var httpClient = new HttpClient())
             {
-                using(var response = await httpClient.GetAsync("https://localhost:44332/api/Clientes" + cedula))
+                using(var response = await httpClient.GetAsync("https://localhost:44332/api/Clientes/" + id))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     clientes = JsonConvert.DeserializeObject<Clientes>(apiResponse);
@@ -105,11 +107,11 @@ namespace Sistema_Supermercado_AppWeb.Controllers
         // POST: ClientesController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(string cedula, Clientes clientes)
+        public async Task<ActionResult> Edit(int id, Clientes clientes)
         {
             var httpClient = new HttpClient();
             StringContent content = new StringContent(JsonConvert.SerializeObject(clientes), Encoding.UTF8, "application/json");
-            var response = await httpClient.PostAsync("https://localhost:44332/api/Clientes/" + cedula, content);
+            var response = await httpClient.PostAsync("https://localhost:44332/api/Clientes/" + id, content);
             if (response.IsSuccessStatusCode)
             {
                 return RedirectToAction(nameof(Index));
@@ -121,12 +123,12 @@ namespace Sistema_Supermercado_AppWeb.Controllers
         }
         
         // GET: ClientesController/Delete/5
-        public async Task<ActionResult<Clientes>> Delete(string cedula)
+        public async Task<ActionResult<Clientes>> Delete(int id)
         {
             Clientes clientes = new Clientes();
             using (var httpClient = new HttpClient())
             {
-                using(var response = await httpClient.GetAsync("https://localhost:44332/api/Clientes/" + cedula))
+                using(var response = await httpClient.GetAsync("https://localhost:44332/api/Clientes/" + id))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     clientes = JsonConvert.DeserializeObject<Clientes>(apiResponse);
@@ -138,13 +140,13 @@ namespace Sistema_Supermercado_AppWeb.Controllers
         // POST: ClientesController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Delete(string cedula, Clientes clientes)
+        public async Task<ActionResult> Delete(int id, Clientes clientes)
         {
             try
             {
                 using (var httpClient = new HttpClient())
                 {
-                    using (var response = await httpClient.DeleteAsync("https://localhost:44332/api/Clientes/" + cedula))
+                    using (var response = await httpClient.DeleteAsync("https://localhost:44332/api/Clientes/" + id))
                     {
                         string apiResponse = await response.Content.ReadAsStringAsync();
                     }
@@ -156,5 +158,49 @@ namespace Sistema_Supermercado_AppWeb.Controllers
                 return View();
             }
         }
+
+        // GET: ClientesController/Create
+        public async Task<ActionResult> Login()
+        {
+
+            var lstClientes = new List<Clientes>();
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync("https://localhost:44332/api/Clientes"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    lstClientes = JsonConvert.DeserializeObject<List<Clientes>>(apiResponse);
+                };
+            }
+            return View(lstClientes);
+
+        }
+
+        // POST: ClientesController/Login/5
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult<Clientes>> Login(Clientes clientes)
+        {
+            var httpClient = new HttpClient();
+            StringContent content = new StringContent(JsonConvert.SerializeObject(clientes), Encoding.UTF8, "application/json");
+            using (var response = await httpClient.PostAsync("https://localhost:44332/api/Clientes/", content))
+            {
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                clientes = JsonConvert.DeserializeObject<Clientes>(apiResponse);
+
+            }
+            if (clientes.EsAdministrador == true)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                return RedirectToAction("Index", "Tienda");
+            }
+        }
+
+
+
     }
 }

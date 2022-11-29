@@ -29,7 +29,7 @@ namespace Sistema_Supermercado_AppWeb.Controllers
             var lstproductos = new List<Productos>();
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync("https://localhost:44332/api/productos"))
+                using (var response = await httpClient.GetAsync("https://localhost:44332/api/Productos"))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     lstproductos = JsonConvert.DeserializeObject<List<Productos>>(apiResponse);
@@ -45,7 +45,7 @@ namespace Sistema_Supermercado_AppWeb.Controllers
                Productos productos = new Productos();
                using(var httpClient = new HttpClient())
                {
-                using (var response = await httpClient.GetAsync("https://localhost:44332/api/productos" + id))
+                using (var response = await httpClient.GetAsync("https://localhost:44332/api/Productos/" + id))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     productos = JsonConvert.DeserializeObject<Productos>(apiResponse);
@@ -69,7 +69,7 @@ namespace Sistema_Supermercado_AppWeb.Controllers
         {
             var httpClient = new HttpClient();
             StringContent content = new StringContent(JsonConvert.SerializeObject(productos), Encoding.UTF8, "application/json");
-            using (var response = await httpClient.PostAsync("https://localhost:44332/api/productos/", content))
+            using (var response = await httpClient.PostAsync("https://localhost:44332/api/Productos/", content))
             {
                 string apiResponse = await response.Content.ReadAsStringAsync();
                 productos = JsonConvert.DeserializeObject<Productos>(apiResponse);
@@ -77,7 +77,7 @@ namespace Sistema_Supermercado_AppWeb.Controllers
             }
             if (productos != null)
             {
-                return RedirectToAction("Tienda","Home");
+                return RedirectToAction(nameof(Index));
             }
             else
             {
@@ -93,7 +93,7 @@ namespace Sistema_Supermercado_AppWeb.Controllers
             Productos productos = new Productos();
             using (var httpClient = new HttpClient())
             {
-                using(var response = await httpClient.GetAsync("https://localhost:44332/api/productos" + id))
+                using(var response = await httpClient.GetAsync("https://localhost:44332/api/Productos/" + id))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     productos = JsonConvert.DeserializeObject<Productos>(apiResponse);
@@ -109,7 +109,7 @@ namespace Sistema_Supermercado_AppWeb.Controllers
         {
             var httpClient = new HttpClient();
             StringContent content = new StringContent(JsonConvert.SerializeObject(productos), Encoding.UTF8, "application/json");
-            var response = await httpClient.PostAsync("https://localhost:44332/api/productos/" + id, content);
+            var response = await httpClient.PostAsync("https://localhost:44332/api/Productos/" + id, content);
             if (response.IsSuccessStatusCode)
             {
                 return RedirectToAction(nameof(Index));
@@ -126,7 +126,7 @@ namespace Sistema_Supermercado_AppWeb.Controllers
             Productos productos = new Productos();
             using (var httpClient = new HttpClient())
             {
-                using(var response = await httpClient.GetAsync("https://localhost:44332/api/productos/" + id))
+                using(var response = await httpClient.GetAsync("https://localhost:44332/api/Productos/" + id))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     productos = JsonConvert.DeserializeObject<Productos>(apiResponse);
@@ -144,7 +144,7 @@ namespace Sistema_Supermercado_AppWeb.Controllers
             {
                 using (var httpClient = new HttpClient())
                 {
-                    using (var response = await httpClient.DeleteAsync("https://localhost:44332/api/productos/" + id))
+                    using (var response = await httpClient.DeleteAsync("https://localhost:44332/api/Productos/" + id))
                     {
                         string apiResponse = await response.Content.ReadAsStringAsync();
                     }
@@ -155,6 +155,22 @@ namespace Sistema_Supermercado_AppWeb.Controllers
             {
                 return View();
             }
+        }
+
+        public async Task<ActionResult> TiendaN()
+        {
+
+            var lstproductos = new List<Productos>();
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync("https://localhost:44332/api/Productos"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    lstproductos = JsonConvert.DeserializeObject<List<Productos>>(apiResponse);
+                };
+            }
+            return View(lstproductos);
+
         }
     }
 }

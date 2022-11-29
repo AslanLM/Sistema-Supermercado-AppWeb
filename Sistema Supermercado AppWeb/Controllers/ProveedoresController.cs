@@ -29,7 +29,7 @@ namespace Sistema_Supermercado_AppWeb.Controllers
             var lstproveedores = new List<Proveedores>();
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync("https://localhost:44332/api/proveedores"))
+                using (var response = await httpClient.GetAsync("https://localhost:44332/api/Proveedores"))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     lstproveedores = JsonConvert.DeserializeObject<List<Proveedores>>(apiResponse);
@@ -40,12 +40,12 @@ namespace Sistema_Supermercado_AppWeb.Controllers
         }
 
         // GET: proveedoresController/Details/5
-        public async Task<ActionResult<Proveedores>> Details(string id)
+        public async Task<ActionResult<Proveedores>> Details(int id)
         {
             Proveedores proveedores = new Proveedores();
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync("https://localhost:44332/api/proveedores" + id))
+                using (var response = await httpClient.GetAsync("https://localhost:44332/api/Proveedores/" + id))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     proveedores = JsonConvert.DeserializeObject<Proveedores>(apiResponse);
@@ -69,7 +69,7 @@ namespace Sistema_Supermercado_AppWeb.Controllers
         {
             var httpClient = new HttpClient();
             StringContent content = new StringContent(JsonConvert.SerializeObject(proveedores), Encoding.UTF8, "application/json");
-            using (var response = await httpClient.PostAsync("https://localhost:44332/api/proveedores/", content))
+            using (var response = await httpClient.PostAsync("https://localhost:44332/api/Proveedores/", content))
             {
                 string apiResponse = await response.Content.ReadAsStringAsync();
                 proveedores = JsonConvert.DeserializeObject<Proveedores>(apiResponse);
@@ -77,7 +77,7 @@ namespace Sistema_Supermercado_AppWeb.Controllers
             }
             if (proveedores != null)
             {
-                return RedirectToAction("Tienda", "Home");
+                return RedirectToAction(nameof(Index));
             }
             else
             {
@@ -88,12 +88,12 @@ namespace Sistema_Supermercado_AppWeb.Controllers
 
 
         // GET: proveedoresController/Edit/5
-        public async Task<ActionResult<Proveedores>> Edit(string id)
+        public async Task<ActionResult<Proveedores>> Edit(int id)
         {
             Proveedores proveedores = new Proveedores();
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync("https://localhost:44332/api/proveedores" + id))
+                using (var response = await httpClient.GetAsync("https://localhost:44332/api/Proveedores/" + id))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     proveedores = JsonConvert.DeserializeObject<Proveedores>(apiResponse);
@@ -105,11 +105,11 @@ namespace Sistema_Supermercado_AppWeb.Controllers
         // POST: proveedoresController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(string id, Proveedores proveedores)
+        public async Task<ActionResult> Edit(int id, Proveedores proveedores)
         {
             var httpClient = new HttpClient();
             StringContent content = new StringContent(JsonConvert.SerializeObject(proveedores), Encoding.UTF8, "application/json");
-            var response = await httpClient.PostAsync("https://localhost:44332/api/proveedores/" + id, content);
+            var response = await httpClient.PostAsync("https://localhost:44332/api/Proveedores/" + id, content);
             if (response.IsSuccessStatusCode)
             {
                 return RedirectToAction(nameof(Index));
@@ -121,12 +121,12 @@ namespace Sistema_Supermercado_AppWeb.Controllers
         }
 
         // GET: proveedoresController/Delete/5
-        public async Task<ActionResult<Proveedores>> Delete(string id)
+        public async Task<ActionResult<Proveedores>> Delete(int id)
         {
             Proveedores proveedores = new Proveedores();
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync("https://localhost:44332/api/proveedores/" + id))
+                using (var response = await httpClient.GetAsync("https://localhost:44332/api/Proveedores/" + id))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     proveedores = JsonConvert.DeserializeObject<Proveedores>(apiResponse);
@@ -138,13 +138,13 @@ namespace Sistema_Supermercado_AppWeb.Controllers
         // POST: proveedoresController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Delete(string id, Proveedores proveedores)
+        public async Task<ActionResult> Delete(int id, Proveedores proveedores)
         {
             try
             {
                 using (var httpClient = new HttpClient())
                 {
-                    using (var response = await httpClient.DeleteAsync("https://localhost:44332/api/proveedores/" + id))
+                    using (var response = await httpClient.DeleteAsync("https://localhost:44332/api/Proveedores/" + id))
                     {
                         string apiResponse = await response.Content.ReadAsStringAsync();
                     }

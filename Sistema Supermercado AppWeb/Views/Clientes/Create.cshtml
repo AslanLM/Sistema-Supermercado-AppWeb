@@ -24,79 +24,57 @@
 <body>
 
     <div class="espacio"></div>
-
-    <section class="container-login">
-        <div class="container-form sign-up">
-            <div class="welcome-back">
-                <div class="message">
-                    <h2>Bienvenido a Supermercado Latino</h2>
-                    <p>Si ya tienes una cuenta por favor inicia sesion aqui</p>
-                    <button class="sign-up-btn">Iniciar Sesion</button>
+    <form asp-action="Create">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="box" style="height:620px">
+            <div class="form">
+                <h2>Registrarse</h2>
+                <div class="inputbox">
+                    <input type="text" required="required" asp-for="Nombre">
+                    <span asp-validation-for="Nombre" class="text-danger"></span>
+                    <span>Nombre</span>
+                    <i></i>
                 </div>
-            </div>
-            <form asp-action="Create" class="formulario">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <h2 class="create-account">Crear una cuenta</h2>
-                <div class="iconos">
-                    <div class="border-icon">
-                        <i class='bx bxl-instagram'></i>
-                    </div>
-                    <div class="border-icon">
-                        <i class='bx bxl-twitter'></i>
-                    </div>
-                    <div class="border-icon">
-                        <i class='bx bxl-facebook-circle'></i>
-                    </div>
+                <div class="inputbox">
+                    <input type="text" required="required" asp-for="Apellidos">
+                    <span asp-validation-for="Nombre" class="text-danger"></span>
+                    <span>Apellidos</span>
+                    <i></i>
                 </div>
-                <p class="cuenta-gratis">Crear una cuenta gratis</p>
-                <input type="text" placeholder="Cedula" asp-for="Cedula" />
-                <span asp-validation-for="Cedula" class="text-danger"></span>
-                <input type="text" placeholder="Nombre" asp-for="Nombre" />
-                <span asp-validation-for="Nombre" class="text-danger"></span>
-                <input type="text" placeholder="Apellidos" asp-for="Apellidos" />
-                <span asp-validation-for="Apellidos" class="text-danger"></span>
-                <input type="number" placeholder="Telefono" asp-for="Telefono" />
-                <span asp-validation-for="Telefono" class="text-danger"></span>
-                <input type="email" placeholder="Correo" asp-for="Correo" />
-                <span asp-validation-for="Correo" class="text-danger"></span>
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </form>
-        </div>
-        <div class="container-form sign-in">
-            <form class="formulario">
-                <h2 class="create-account">Iniciar Sesion</h2>
-                <div class="iconos">
-                    <div class="border-icon">
-                        <i class='bx bxl-instagram'></i>
-                    </div>
-                    <div class="border-icon">
-                        <i class='bx bxl-twitch'></i>
-                    </div>
-                    <div class="border-icon">
-                        <i class='bx bxl-facebook-circle'></i>
-                    </div>
+                <div class="inputbox">
+                    <input type="text" required="required" asp-for="Telefono">
+                    <span asp-validation-for="Nombre" class="text-danger"></span>
+                    <span>Telefono</span>
+                    <i></i>
                 </div>
-                <p class="cuenta-gratis">¿Aun no tienes una cuenta?</p>
-                <input type="email" placeholder="Email">
-                <input type="password" placeholder="Contraseña">
-                <input type="button" value="Iniciar Sesion">
-            </form>
-            <div class="welcome-back">
-                <div class="message">
-                    <h2>Bienvenido de nuevo</h2>
-                    <p>Si aun no tienes una cuenta por favor registrese aqui</p>
-                    <button class="sign-in-btn">Registrarse</button>
+                <div class="inputbox">
+                    <input type="email" required="required" asp-for="Correo">
+                    <span asp-validation-for="Nombre" class="text-danger"></span>
+                    <span>Correo</span>
+                    <i></i>
                 </div>
+                <div class="inputbox">
+                    <input type="password" required="required" asp-for="Contrasena">
+                    <span asp-validation-for="Nombre" class="text-danger"></span>
+                    <span>Contrasena</span>
+                    <i></i>
+                </div>
+                <div class="links">
+                    <a href="#">No tienes una cuenta?</a>
+                    <a asp-action="Login">Inicio de sesion</a>
+                </div>
+                <input type="submit" value="Create" />
             </div>
         </div>
-    </section>
-    <script src="~/Tienda/JS/script-login.js"></script>
+    </form>
 
 
 
-    @section Scripts {
-        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    }
+
+
+        @section Scripts {
+            @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+        }
 
 </body>
 </html>
