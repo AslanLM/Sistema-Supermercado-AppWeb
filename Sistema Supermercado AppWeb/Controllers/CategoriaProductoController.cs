@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Sistema_Supermercado_AppWeb.Models;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 
@@ -20,9 +22,18 @@ namespace Sistema_Supermercado_AppWeb.Controllers
                 { return true; };
         }
         // GET: CategoriaProductoController
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            return View();
+            var lstCategoriaProductos = new List<CategoriaProducto>();
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync("https://localhost:44332/api/CategoriaProducto"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    lstCategoriaProductos = JsonConvert.DeserializeObject<List<CategoriaProducto>>(apiResponse);
+                };
+            }
+            return View(lstCategoriaProductos);
         }
 
         // GET: CategoriaProductoController/Details/5

@@ -1,14 +1,15 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Sistema_Supermercado_AppWeb.Models;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 
 namespace Sistema_Supermercado_AppWeb.Controllers
 {
-
     public class ProductosController : Controller
     {
         private HttpClientHandler clientHandler = new HttpClientHandler();
@@ -20,73 +21,134 @@ namespace Sistema_Supermercado_AppWeb.Controllers
                 =>
                 { return true; };
         }
-        // GET: ProductosController
-        public ActionResult Index()
+        // GET: productosController
+
+        public async Task<ActionResult> Index()
         {
-            return View();
+
+            var lstproductos = new List<Productos>();
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync("https://localhost:44332/api/productos"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    lstproductos = JsonConvert.DeserializeObject<List<Productos>>(apiResponse);
+                };
+            }
+            return View(lstproductos);
+
         }
 
-        // GET: ProductosController/Details/5
-        public ActionResult Details(int id)
+        // GET: productosController/Details/5
+        public async Task<ActionResult<Productos>> Details(string id)
         {
-            return View();
+               Productos productos = new Productos();
+               using(var httpClient = new HttpClient())
+               {
+                using (var response = await httpClient.GetAsync("https://localhost:44332/api/productos" + id))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    productos = JsonConvert.DeserializeObject<Productos>(apiResponse);
+                }
+               }
+                    
+         return View(productos);
         }
 
-        // GET: ProductosController/Create
+        // GET: productosController/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: ProductosController/Create
+        // POST: productosController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+
+        public async Task<ActionResult> Create(Productos productos)
         {
-            try
+            var httpClient = new HttpClient();
+            StringContent content = new StringContent(JsonConvert.SerializeObject(productos), Encoding.UTF8, "application/json");
+            using (var response = await httpClient.PostAsync("https://localhost:44332/api/productos/", content))
             {
-                return RedirectToAction(nameof(Index));
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                productos = JsonConvert.DeserializeObject<Productos>(apiResponse);
+
             }
-            catch
+            if (productos != null)
+            {
+                return RedirectToAction("Tienda","Home");
+            }
+            else
             {
                 return View();
             }
         }
 
-        // GET: ProductosController/Edit/5
-        public ActionResult Edit(int id)
+
+
+        // GET: productosController/Edit/5
+        public async  Task<ActionResult<Productos>> Edit(string id)
         {
-            return View();
+            Productos productos = new Productos();
+            using (var httpClient = new HttpClient())
+            {
+                using(var response = await httpClient.GetAsync("https://localhost:44332/api/productos" + id))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    productos = JsonConvert.DeserializeObject<Productos>(apiResponse);
+                }
+            }
+            return View(productos);  
         }
 
-        // POST: ProductosController/Edit/5
+        // POST: productosController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> Edit(string id, Productos productos)
         {
-            try
+            var httpClient = new HttpClient();
+            StringContent content = new StringContent(JsonConvert.SerializeObject(productos), Encoding.UTF8, "application/json");
+            var response = await httpClient.PostAsync("https://localhost:44332/api/productos/" + id, content);
+            if (response.IsSuccessStatusCode)
             {
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            else
             {
                 return View();
             }
         }
-
-        // GET: ProductosController/Delete/5
-        public ActionResult Delete(int id)
+        
+        // GET: productosController/Delete/5
+        public async Task<ActionResult<Productos>> Delete(string id)
         {
-            return View();
+            Productos productos = new Productos();
+            using (var httpClient = new HttpClient())
+            {
+                using(var response = await httpClient.GetAsync("https://localhost:44332/api/productos/" + id))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    productos = JsonConvert.DeserializeObject<Productos>(apiResponse);
+                }
+            }
+            return View(productos);
         }
 
-        // POST: ProductosController/Delete/5
+        // POST: productosController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> Delete(string id, Productos productos)
         {
             try
             {
+                using (var httpClient = new HttpClient())
+                {
+                    using (var response = await httpClient.DeleteAsync("https://localhost:44332/api/productos/" + id))
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                    }
+                }
                 return RedirectToAction(nameof(Index));
             }
             catch

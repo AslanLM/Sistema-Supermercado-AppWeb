@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Sistema_Supermercado_AppWeb.Models;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 
@@ -19,73 +21,134 @@ namespace Sistema_Supermercado_AppWeb.Controllers
                 =>
                 { return true; };
         }
-        // GET: ProveedoresController
-        public ActionResult Index()
+        // GET: proveedoresController
+
+        public async Task<ActionResult> Index()
         {
-            return View();
+
+            var lstproveedores = new List<Proveedores>();
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync("https://localhost:44332/api/proveedores"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    lstproveedores = JsonConvert.DeserializeObject<List<Proveedores>>(apiResponse);
+                };
+            }
+            return View(lstproveedores);
+
         }
 
-        // GET: ProveedoresController/Details/5
-        public ActionResult Details(int id)
+        // GET: proveedoresController/Details/5
+        public async Task<ActionResult<Proveedores>> Details(string id)
         {
-            return View();
+            Proveedores proveedores = new Proveedores();
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync("https://localhost:44332/api/proveedores" + id))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    proveedores = JsonConvert.DeserializeObject<Proveedores>(apiResponse);
+                }
+            }
+
+            return View(proveedores);
         }
 
-        // GET: ProveedoresController/Create
+        // GET: proveedoresController/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: ProveedoresController/Create
+        // POST: proveedoresController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+
+        public async Task<ActionResult> Create(Proveedores proveedores)
         {
-            try
+            var httpClient = new HttpClient();
+            StringContent content = new StringContent(JsonConvert.SerializeObject(proveedores), Encoding.UTF8, "application/json");
+            using (var response = await httpClient.PostAsync("https://localhost:44332/api/proveedores/", content))
             {
-                return RedirectToAction(nameof(Index));
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                proveedores = JsonConvert.DeserializeObject<Proveedores>(apiResponse);
+
             }
-            catch
+            if (proveedores != null)
+            {
+                return RedirectToAction("Tienda", "Home");
+            }
+            else
             {
                 return View();
             }
         }
 
-        // GET: ProveedoresController/Edit/5
-        public ActionResult Edit(int id)
+
+
+        // GET: proveedoresController/Edit/5
+        public async Task<ActionResult<Proveedores>> Edit(string id)
         {
-            return View();
+            Proveedores proveedores = new Proveedores();
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync("https://localhost:44332/api/proveedores" + id))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    proveedores = JsonConvert.DeserializeObject<Proveedores>(apiResponse);
+                }
+            }
+            return View(proveedores);
         }
 
-        // POST: ProveedoresController/Edit/5
+        // POST: proveedoresController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> Edit(string id, Proveedores proveedores)
         {
-            try
+            var httpClient = new HttpClient();
+            StringContent content = new StringContent(JsonConvert.SerializeObject(proveedores), Encoding.UTF8, "application/json");
+            var response = await httpClient.PostAsync("https://localhost:44332/api/proveedores/" + id, content);
+            if (response.IsSuccessStatusCode)
             {
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            else
             {
                 return View();
             }
         }
 
-        // GET: ProveedoresController/Delete/5
-        public ActionResult Delete(int id)
+        // GET: proveedoresController/Delete/5
+        public async Task<ActionResult<Proveedores>> Delete(string id)
         {
-            return View();
+            Proveedores proveedores = new Proveedores();
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync("https://localhost:44332/api/proveedores/" + id))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    proveedores = JsonConvert.DeserializeObject<Proveedores>(apiResponse);
+                }
+            }
+            return View(proveedores);
         }
 
-        // POST: ProveedoresController/Delete/5
+        // POST: proveedoresController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> Delete(string id, Proveedores proveedores)
         {
             try
             {
+                using (var httpClient = new HttpClient())
+                {
+                    using (var response = await httpClient.DeleteAsync("https://localhost:44332/api/proveedores/" + id))
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                    }
+                }
                 return RedirectToAction(nameof(Index));
             }
             catch

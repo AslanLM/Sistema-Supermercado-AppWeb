@@ -26,7 +26,7 @@ namespace Sistema_Supermercado_AppWeb.Controllers
         public async Task<ActionResult> Index()
         {
 
-                     var lstClientes = new List<Clientes>();
+            var lstClientes = new List<Clientes>();
             using (var httpClient = new HttpClient())
             {
                 using (var response = await httpClient.GetAsync("https://localhost:44332/api/Clientes"))
@@ -36,13 +36,23 @@ namespace Sistema_Supermercado_AppWeb.Controllers
                 };
             }
             return View(lstClientes);
-            
+
         }
 
         // GET: ClientesController/Details/5
-        public ActionResult Details(int id)
+        public async Task<ActionResult<Clientes>> Details(string cedula)
         {
-            return View();
+               Clientes clientes = new Clientes();
+               using(var httpClient = new HttpClient())
+               {
+                using (var response = await httpClient.GetAsync("https://localhost:44332/api/Clientes" + cedula))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    clientes = JsonConvert.DeserializeObject<Clientes>(apiResponse);
+                }
+               }
+                    
+         return View(clientes);
         }
 
         // GET: ClientesController/Create
@@ -67,7 +77,7 @@ namespace Sistema_Supermercado_AppWeb.Controllers
             }
             if (clientes != null)
             {
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Tienda","Home");
             }
             else
             {
@@ -78,39 +88,67 @@ namespace Sistema_Supermercado_AppWeb.Controllers
 
 
         // GET: ClientesController/Edit/5
-        public ActionResult Edit(int id)
+        public async  Task<ActionResult<Clientes>> Edit(string cedula)
         {
-            return View();
+            Clientes clientes = new Clientes();
+            using (var httpClient = new HttpClient())
+            {
+                using(var response = await httpClient.GetAsync("https://localhost:44332/api/Clientes" + cedula))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    clientes = JsonConvert.DeserializeObject<Clientes>(apiResponse);
+                }
+            }
+            return View(clientes);  
         }
 
         // POST: ClientesController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> Edit(string cedula, Clientes clientes)
         {
-            try
+            var httpClient = new HttpClient();
+            StringContent content = new StringContent(JsonConvert.SerializeObject(clientes), Encoding.UTF8, "application/json");
+            var response = await httpClient.PostAsync("https://localhost:44332/api/Clientes/" + cedula, content);
+            if (response.IsSuccessStatusCode)
             {
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            else
             {
                 return View();
             }
         }
-
+        
         // GET: ClientesController/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<ActionResult<Clientes>> Delete(string cedula)
         {
-            return View();
+            Clientes clientes = new Clientes();
+            using (var httpClient = new HttpClient())
+            {
+                using(var response = await httpClient.GetAsync("https://localhost:44332/api/Clientes/" + cedula))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    clientes = JsonConvert.DeserializeObject<Clientes>(apiResponse);
+                }
+            }
+            return View(clientes);
         }
 
         // POST: ClientesController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> Delete(string cedula, Clientes clientes)
         {
             try
             {
+                using (var httpClient = new HttpClient())
+                {
+                    using (var response = await httpClient.DeleteAsync("https://localhost:44332/api/Clientes/" + cedula))
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                    }
+                }
                 return RedirectToAction(nameof(Index));
             }
             catch

@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Sistema_Supermercado_AppWeb.Models;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 
@@ -20,72 +22,133 @@ namespace Sistema_Supermercado_AppWeb.Controllers
                 { return true; };
         }
         // GET: EmpleadosController
-        public ActionResult Index()
+
+        public async Task<ActionResult> Index()
         {
-            return View();
+
+            var lstempleados = new List<Empleados>();
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync("https://localhost:44332/api/empleados"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    lstempleados = JsonConvert.DeserializeObject<List<Empleados>>(apiResponse);
+                };
+            }
+            return View(lstempleados);
+
         }
 
-        // GET: EmpleadosController/Details/5
-        public ActionResult Details(int id)
+        // GET: empleadosController/Details/5
+        public async Task<ActionResult<Empleados>> Details(string codigo)
         {
-            return View();
+            Empleados empleados = new Empleados();
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync("https://localhost:44332/api/empleados" + codigo))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    empleados = JsonConvert.DeserializeObject<Empleados>(apiResponse);
+                }
+            }
+
+            return View(empleados);
         }
 
-        // GET: EmpleadosController/Create
+        // GET: empleadosController/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: EmpleadosController/Create
+        // POST: empleadosController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+
+        public async Task<ActionResult> Create(Empleados empleados)
         {
-            try
+            var httpClient = new HttpClient();
+            StringContent content = new StringContent(JsonConvert.SerializeObject(empleados), Encoding.UTF8, "application/json");
+            using (var response = await httpClient.PostAsync("https://localhost:44332/api/empleados/", content))
+            {
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                empleados = JsonConvert.DeserializeObject<Empleados>(apiResponse);
+
+            }
+            if (empleados != null)
             {
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            else
             {
                 return View();
             }
         }
 
-        // GET: EmpleadosController/Edit/5
-        public ActionResult Edit(int id)
+
+
+        // GET: empleadosController/Edit/5
+        public async Task<ActionResult<Empleados>> Edit(string codigo)
         {
-            return View();
+            Empleados empleados = new Empleados();
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync("https://localhost:44332/api/empleados" + codigo))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    empleados = JsonConvert.DeserializeObject<Empleados>(apiResponse);
+                }
+            }
+            return View(empleados);
         }
 
-        // POST: EmpleadosController/Edit/5
+        // POST: empleadosController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> Edit(string codigo, Empleados empleados)
         {
-            try
+            var httpClient = new HttpClient();
+            StringContent content = new StringContent(JsonConvert.SerializeObject(empleados), Encoding.UTF8, "application/json");
+            var response = await httpClient.PostAsync("https://localhost:44332/api/empleados/" + codigo, content);
+            if (response.IsSuccessStatusCode)
             {
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            else
             {
                 return View();
             }
         }
 
-        // GET: EmpleadosController/Delete/5
-        public ActionResult Delete(int id)
+        // GET: empleadosController/Delete/5
+        public async Task<ActionResult<Empleados>> Delete(string codigo)
         {
-            return View();
+            Empleados empleados = new Empleados();
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync("https://localhost:44332/api/empleados/" + codigo))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    empleados = JsonConvert.DeserializeObject<Empleados>(apiResponse);
+                }
+            }
+            return View(empleados);
         }
 
-        // POST: EmpleadosController/Delete/5
+        // POST: empleadosController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> Delete(string codigo, Empleados empleados)
         {
             try
             {
+                using (var httpClient = new HttpClient())
+                {
+                    using (var response = await httpClient.DeleteAsync("https://localhost:44332/api/empleados/" + codigo))
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                    }
+                }
                 return RedirectToAction(nameof(Index));
             }
             catch
