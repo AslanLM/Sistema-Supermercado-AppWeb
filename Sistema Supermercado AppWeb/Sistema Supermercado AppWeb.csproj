@@ -13,6 +13,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Views\Login\Index.cshtml" />
+    <None Include="Views\Login\Registrarse.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.31" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
   </ItemGroup>
